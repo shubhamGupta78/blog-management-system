@@ -1,0 +1,111 @@
+<% include('./layouts/header.ejs') %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+<%
+    if(typeof message !== 'undefined')
+    {
+        %>
+
+        <h1> <%= message %></h1>
+        <h1> ds;kfd fn;</h1>
+        <%
+    }
+    %>
+    <%
+    if(typeof post !== 'undefined')
+    {
+        %>
+       
+
+            <h1><%= post.title %></h1>
+          
+             
+            <p><%= post.description %></p>
+            <form id="comment">
+                <input type="hidden" name="id" value="<%=post._id %>">
+                <br>
+                <br>
+                <input type="email" name="email" placeholder="enter your email">
+                <br>
+                <br>
+                <textarea name="comment"></textarea>
+                <input type="submit" value="postComment">
+       
+            </form>
+          <p class="statusPost"></p>
+        
+         <ul class="comments">
+            <%
+         if(post.comments.length>=0)
+         {
+             post.comments = post.comments.reverse();
+           
+         post.comments.forEach(function(comment){
+             %>
+             <li>
+             <p><%= comment.email %></p>
+             <p><%= comment.comment %></p>
+             
+            </li>
+            <%
+
+
+         });
+        }
+        %>
+    </ul>
+    <%
+
+    }
+   
+ %>
+<script>
+  
+ $(document).ready(function(){
+  
+    $('#comment').submit(function(e){
+        e.preventDefault();
+        var formData={};
+        $.each($(this).serializeArray(),function(i,field){
+                formData[field.name]=field.value;
+
+            });
+
+     
+        $.ajax({
+            url:'/addComments',
+            type:'POST',
+            data:formData,
+            success:function(response)
+            {
+                if(response.success==true)
+                {
+                    alert(response.message);
+                   var socket=io();
+                   socket.emit("new_comment",formData);
+                
+                }
+                else
+                {
+                    alert(response.message);
+                }
+            }
+        });
+
+    });
+
+});
+var socket=io();
+    socket.on("new_comment",function(formData){
+        console.log(formData);
+        var html= "";
+        html+=`<li>
+            <h1>`+formData.email+`</h1>
+          <h1>`+formData.comment+`</h1>
+           </li>`;
+           $('.comments').prepend(html);
+    });
+</script>
+
+
+<% include('./layouts/footer.ejs') %>

@@ -1,0 +1,72 @@
+<% include('./layouts/header.ejs') %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+<%
+    if(typeof message !== 'undefined')
+    {
+        %>
+
+        <h1> <%= message %></h1>
+        <h1> ds;kfd fn;</h1>
+        <%
+    }
+    %>
+    <%
+    if(typeof posts !== 'undefined')
+    {
+        %>
+        <ul class="">
+           
+       <% 
+       posts=posts.reverse();
+       posts.forEach(function(post) {
+           %>
+        
+            <li>
+                 <h1><%=post.title %></h1>
+            <p><%=post.description %></p>
+            <a href="#" class="delete-post" data-id="<%= post._id %>">Delete Post</a>
+            </li>
+        <%
+       })
+       %>
+    </ul>
+    <%
+    }
+    %>
+   <script>
+   
+       $(document).ready(function(){
+     
+           $('.delete-post').click(function(){
+           
+               var postId=$(this).attr('data-id');
+               var obj=$(this);
+            
+
+               $.ajax({
+                   url:'/deletePost',
+                   type:'POST',
+                   data:{id:postId},
+                   success:function(response)
+                   {
+                       if(response.success==true)
+                       {
+                           $(obj).parent().remove();
+                           var socket=io();
+                           socket.emit("delete_post",postId);
+                           
+                        alert(response.message);
+                       }
+                       else
+                       {
+                           alert(response.message);
+                       }
+                   }
+                    });
+
+           });
+
+       })
+   </script> 
+   <% include('./layouts/footer.ejs') %>

@@ -1,0 +1,16 @@
+<% include('./layouts/header.ejs') %>
+
+<form action="/blogSetup" method="POST" ><br><br>
+
+        <input type="text" name="title" placeholder="enter the title" required><br><br>
+        <input type="text" name="logo" placeholder="enter the logo" required><br><br>
+        <textarea name="description" id="" cols="30" rows="10" required></textarea><br><br>
+        <input type="text" name="name" placeholder="enter the name" required><br><br>
+        <input type="email" name="email" placeholder="enter the email" required><br><br>
+        <input type="password" name="password" placeholder="enter the password" required><br><br>
+
+        <input type="submit" value="submit"><br><br>
+        
+</form>
+
+<% include('./layouts/footer.ejs') %>

@@ -1,0 +1,15 @@
+<% include('./layouts/header.ejs') %>
+<%
+    if(typeof message !== 'undefined')
+    {
+        %>
+
+        <h1> <%= message %></h1>
+        <%
+    }
+    %>
+    <a href="http://localhost:3000/postBlog">Post A blog</a>
+    <a href="http://localhost:3000/showPost">Edit Post</a>
+
+
+<% include('./layouts/footer.ejs') %>

@@ -1,0 +1,49 @@
+<% include('./layouts/header.ejs') %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+<%
+    if(typeof message !== 'undefined')
+    {
+        %>
+
+        <h1> <%= message %></h1>
+        <h1> ds;kfd fn;</h1>
+        <%
+    }
+    %>
+    <%
+    if(typeof posts !== 'undefined')
+    {
+        %>
+        <ul class="post">
+       <% posts.forEach(function(post) {
+           %>
+        <li id="<%=post._id%>">
+            <h1><%=post.title %></h1>
+           <a href="/blogDetails?id=<%=post._id%>">Read More</a>
+           </li>
+        <%
+       })
+    }
+    %>
+    </ul>
+   
+<script>
+    var socket=io();
+    socket.on("new_post",function(formData){
+        console.log(formData);
+        var html= "";
+        html+=`<li>
+            <h1>`+formData.title+`</h1>
+           <a href="/blogDetails?id=`+formData._id+`">Read More</a>
+           </li>`;
+           $('.post').prepend(html);
+    });
+    socket.on("delete_post",function(postId){
+            console.log("hi baby");
+            alert("hi");
+           document.getElementById(postId).remove();
+    });
+</script>
+
+<% include('./layouts/footer.ejs') %>

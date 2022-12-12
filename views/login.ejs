@@ -1,0 +1,22 @@
+<% include('./layouts/header.ejs') %>
+<%
+    if(typeof message !== 'undefined')
+    {
+        %>
+
+        <h1> <%= message %></h1>
+        <%
+    }
+    %>
+
+<form action="/login" method="POST" ><br><br>
+        <input type="email" name="email" placeholder="enter the email" required><br><br>
+        
+        <input type="password" name="password" placeholder="enter the password" required><br><br>
+
+        <input type="submit" value="submit"><br><br>
+        
+</form>
+<a href="http://localhost:3000/register">Register</a>
+
+<% include('./layouts/footer.ejs') %>
