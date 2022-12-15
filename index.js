@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 const adminRoutes=require('./server/routes/adminRoutes');
 const isBlog = require('./middleware/isBlog');
-
+console.log("hi");
 app.use(isBlog);
 app.use('/',adminRoutes);
 /*onst userRoutes=require('./server/routes/userRoutes');
